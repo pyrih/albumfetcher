@@ -1,8 +1,10 @@
 package nc.labs.pyrih.albumfetcher.service;
 
 import nc.labs.pyrih.albumfetcher.model.Album;
+import org.springframework.stereotype.Service;
 
-public class AlbumInfoServiceImpl implements AlbumInfoService {
+@Service
+public class AlbumServiceImpl implements AlbumService {
     @Override
     public Album getAlbum() {
         return null;

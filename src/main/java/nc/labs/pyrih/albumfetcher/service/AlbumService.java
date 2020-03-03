@@ -2,7 +2,7 @@ package nc.labs.pyrih.albumfetcher.service;
 
 import nc.labs.pyrih.albumfetcher.model.Album;
 
-public interface AlbumInfoService {
+public interface AlbumService {
     Album getAlbum();
 
     Album getAlbumDoc();

@@ -1,11 +1,13 @@
 package nc.labs.pyrih.albumfetcher.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+@XmlRootElement
 public class Album implements Serializable {
     private String name;
     private String artist;
