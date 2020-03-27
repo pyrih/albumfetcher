@@ -1,28 +1,19 @@
 package nc.labs.pyrih.albumfetcher.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.StringJoiner;
 
-public class Track implements Serializable {
-    private int rank;
+public abstract class AbstractTrack implements Serializable {
     private String name;
     private int duration;
 
-    public Track() {
+    public AbstractTrack() {
     }
 
-    public Track(int rank, String name, int duration) {
-        this.rank = rank;
+    public AbstractTrack(String name, int duration) {
         this.name = name;
         this.duration = duration;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
     }
 
     public String getName() {
@@ -44,27 +35,20 @@ public class Track implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Track)) return false;
-
-        Track track = (Track) o;
-
-        if (rank != track.rank) return false;
-        if (duration != track.duration) return false;
-        return name.equals(track.name);
+        if (!(o instanceof AbstractTrack)) return false;
+        AbstractTrack that = (AbstractTrack) o;
+        return duration == that.duration &&
+                name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        int result = rank;
-        result = 31 * result + name.hashCode();
-        result = 31 * result + duration;
-        return result;
+        return Objects.hash(name, duration);
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Track.class.getSimpleName() + "[", "]")
-                .add("rank=" + rank)
+        return new StringJoiner(", ", AbstractTrack.class.getSimpleName() + "[", "]")
                 .add("name='" + name + "'")
                 .add("duration=" + duration)
                 .toString();
