@@ -3,7 +3,9 @@ package nc.labs.pyrih.albumfetcher.service;
 import nc.labs.pyrih.albumfetcher.model.AbstractAlbum;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public interface JsonParseService {
-    AbstractAlbum parse(String jsonString);
+    Optional<AbstractAlbum> parse(String jsonString);
 }
