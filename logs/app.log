@@ -1,0 +1,94 @@
+2020-04-01 13:52:44.553  INFO 3368 --- [restartedMain] nc.labs.pyrih.albumfetcher.App           : Starting App on WIN-91EOM794GMC with PID 3368 (C:\dev\albumfetcher\target\classes started by Andrii in C:\dev\albumfetcher)
+2020-04-01 13:52:44.579 DEBUG 3368 --- [restartedMain] nc.labs.pyrih.albumfetcher.App           : Running with Spring Boot v2.2.5.RELEASE, Spring v5.2.4.RELEASE
+2020-04-01 13:52:44.581  INFO 3368 --- [restartedMain] nc.labs.pyrih.albumfetcher.App           : No active profile set, falling back to default profiles: default
+2020-04-01 13:52:44.679  INFO 3368 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-04-01 13:52:44.681  INFO 3368 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-04-01 13:52:46.569  INFO 3368 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'asyncConfig' of type [nc.labs.pyrih.albumfetcher.config.AsyncConfig$$EnhancerBySpringCGLIB$$1dbe7fd1] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-01 13:52:46.671  INFO 3368 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$a77298f8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-01 13:52:46.776  INFO 3368 --- [restartedMain] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2020-04-01 13:52:47.429  INFO 3368 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8765 (http)
+2020-04-01 13:52:47.448  INFO 3368 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-04-01 13:52:47.448  INFO 3368 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-04-01 13:52:47.589  INFO 3368 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-04-01 13:52:47.590  INFO 3368 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2908 ms
+2020-04-01 13:52:48.977  INFO 3368 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-04-01 13:52:48.986  INFO 3368 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-04-01 13:52:49.090  INFO 3368 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8765 (http) with context path ''
+2020-04-01 13:52:49.095  INFO 3368 --- [restartedMain] nc.labs.pyrih.albumfetcher.App           : Started App in 5.489 seconds (JVM running for 9.587)
+2020-04-01 13:52:49.319  INFO 3368 --- [RMI TCP Connection(1)-192.168.56.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-01 13:52:49.320  INFO 3368 --- [RMI TCP Connection(1)-192.168.56.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-04-01 13:52:49.335  INFO 3368 --- [RMI TCP Connection(1)-192.168.56.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 14 ms
+2020-04-01 13:53:07.224  INFO 3368 --- [http-nio-8765-exec-1] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Recovery
+2020-04-01 13:53:07.231  INFO 3368 --- [http-nio-8765-exec-1] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService
+2020-04-01 13:53:09.344  INFO 3368 --- [ThreadPoolTaskExecutor-1] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 13:53:09.346  INFO 3368 --- [http-nio-8765-exec-1] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 13:53:09.505  WARN 3368 --- [http-nio-8765-exec-2] o.s.web.servlet.PageNotFound             : No mapping for GET /favicon.ico
+2020-04-01 13:53:26.187  INFO 3368 --- [http-nio-8765-exec-3] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Recovery
+2020-04-01 13:53:27.736  INFO 3368 --- [ThreadPoolTaskExecutor-2] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 13:53:27.740  INFO 3368 --- [http-nio-8765-exec-3] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:05:14.952  INFO 5336 --- [restartedMain] nc.labs.pyrih.albumfetcher.App           : Starting App on WIN-91EOM794GMC with PID 5336 (C:\dev\albumfetcher\target\classes started by Andrii in C:\dev\albumfetcher)
+2020-04-01 14:05:14.956 DEBUG 5336 --- [restartedMain] nc.labs.pyrih.albumfetcher.App           : Running with Spring Boot v2.2.5.RELEASE, Spring v5.2.4.RELEASE
+2020-04-01 14:05:14.957  INFO 5336 --- [restartedMain] nc.labs.pyrih.albumfetcher.App           : No active profile set, falling back to default profiles: default
+2020-04-01 14:05:15.065  INFO 5336 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2020-04-01 14:05:15.066  INFO 5336 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2020-04-01 14:05:16.728  INFO 5336 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'asyncConfig' of type [nc.labs.pyrih.albumfetcher.config.AsyncConfig$$EnhancerBySpringCGLIB$$e0434a83] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-01 14:05:16.812  INFO 5336 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.ws.config.annotation.DelegatingWsConfiguration' of type [org.springframework.ws.config.annotation.DelegatingWsConfiguration$$EnhancerBySpringCGLIB$$69f763aa] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-01 14:05:16.886  INFO 5336 --- [restartedMain] .w.s.a.s.AnnotationActionEndpointMapping : Supporting [WS-Addressing August 2004, WS-Addressing 1.0]
+2020-04-01 14:05:17.352  INFO 5336 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8765 (http)
+2020-04-01 14:05:17.365  INFO 5336 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-04-01 14:05:17.366  INFO 5336 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.31]
+2020-04-01 14:05:17.778  INFO 5336 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-04-01 14:05:17.779  INFO 5336 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2713 ms
+2020-04-01 14:05:19.071  INFO 5336 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2020-04-01 14:05:19.079  INFO 5336 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-04-01 14:05:19.179  INFO 5336 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8765 (http) with context path ''
+2020-04-01 14:05:19.184  INFO 5336 --- [restartedMain] nc.labs.pyrih.albumfetcher.App           : Started App in 4.952 seconds (JVM running for 9.65)
+2020-04-01 14:05:19.569  INFO 5336 --- [RMI TCP Connection(1)-192.168.56.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-04-01 14:05:19.570  INFO 5336 --- [RMI TCP Connection(1)-192.168.56.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-04-01 14:05:19.582  INFO 5336 --- [RMI TCP Connection(1)-192.168.56.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 12 ms
+2020-04-01 14:08:24.665  INFO 5336 --- [http-nio-8765-exec-1] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Music to Be Murdered By
+2020-04-01 14:08:24.671  INFO 5336 --- [http-nio-8765-exec-1] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService
+2020-04-01 14:08:26.330  INFO 5336 --- [ThreadPoolTaskExecutor-1] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:08:26.332  INFO 5336 --- [http-nio-8765-exec-1] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:09:06.793  INFO 5336 --- [http-nio-8765-exec-2] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Music To Be Murdered By
+2020-04-01 14:09:08.169  INFO 5336 --- [ThreadPoolTaskExecutor-2] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:09:08.171  INFO 5336 --- [http-nio-8765-exec-2] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:09:23.222  INFO 5336 --- [http-nio-8765-exec-5] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Kamikaze
+2020-04-01 14:09:24.593  INFO 5336 --- [ThreadPoolTaskExecutor-3] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:09:24.594  INFO 5336 --- [http-nio-8765-exec-5] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:09:46.328  INFO 5336 --- [http-nio-8765-exec-7] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Kamikaze
+2020-04-01 14:09:47.698  INFO 5336 --- [ThreadPoolTaskExecutor-4] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:09:47.698  INFO 5336 --- [http-nio-8765-exec-7] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:10:16.123  INFO 5336 --- [http-nio-8765-exec-8] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Revival
+2020-04-01 14:10:17.498  INFO 5336 --- [ThreadPoolTaskExecutor-5] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:10:17.501  INFO 5336 --- [http-nio-8765-exec-8] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:10:27.922  INFO 5336 --- [http-nio-8765-exec-10] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Revival
+2020-04-01 14:10:29.323  INFO 5336 --- [ThreadPoolTaskExecutor-6] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:10:29.333  INFO 5336 --- [http-nio-8765-exec-10] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:10:39.553  INFO 5336 --- [http-nio-8765-exec-1] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: The Marshall Mathers LP 2
+2020-04-01 14:10:40.929  INFO 5336 --- [ThreadPoolTaskExecutor-7] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:10:40.930  INFO 5336 --- [http-nio-8765-exec-1] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:10:57.817  INFO 5336 --- [http-nio-8765-exec-2] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: The Marshall Mathers LP 2
+2020-04-01 14:10:59.225  INFO 5336 --- [ThreadPoolTaskExecutor-8] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:10:59.226  INFO 5336 --- [http-nio-8765-exec-2] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:11:11.299  INFO 5336 --- [http-nio-8765-exec-4] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Recovery
+2020-04-01 14:11:12.853  INFO 5336 --- [ThreadPoolTaskExecutor-9] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:11:12.854  INFO 5336 --- [http-nio-8765-exec-4] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:11:29.745  INFO 5336 --- [http-nio-8765-exec-6] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Recovery
+2020-04-01 14:11:31.138  INFO 5336 --- [ThreadPoolTaskExecutor-10] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:11:31.139  INFO 5336 --- [http-nio-8765-exec-6] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:13:23.944  INFO 5336 --- [http-nio-8765-exec-8] n.l.p.a.controller.AlbumController       : Request:: value 1: 50 Cent value 2: Curtis
+2020-04-01 14:13:25.385  INFO 5336 --- [ThreadPoolTaskExecutor-1] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:13:25.387  INFO 5336 --- [http-nio-8765-exec-8] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:13:58.075  INFO 5336 --- [http-nio-8765-exec-1] n.l.p.a.controller.AlbumController       : Request:: value 1: 50 Cent value 2: Curtis
+2020-04-01 14:13:59.967  INFO 5336 --- [ThreadPoolTaskExecutor-2] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:13:59.968  INFO 5336 --- [http-nio-8765-exec-1] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:14:28.538  INFO 5336 --- [http-nio-8765-exec-3] n.l.p.a.controller.AlbumController       : Request:: value 1: 50 Cent value 2: The Massacre
+2020-04-01 14:14:29.932  INFO 5336 --- [ThreadPoolTaskExecutor-3] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:14:29.933  INFO 5336 --- [http-nio-8765-exec-3] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:14:47.102  INFO 5336 --- [http-nio-8765-exec-4] n.l.p.a.controller.AlbumController       : Request:: value 1: 50 Cent value 2: The Massacre
+2020-04-01 14:14:48.482  INFO 5336 --- [ThreadPoolTaskExecutor-4] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:14:48.482  INFO 5336 --- [http-nio-8765-exec-4] n.l.p.a.controller.AlbumController       : Album fetched
+2020-04-01 14:19:17.080  INFO 5336 --- [http-nio-8765-exec-7] n.l.p.a.controller.AlbumController       : Request:: value 1: Eminem value 2: Recovery
+2020-04-01 14:19:18.962  INFO 5336 --- [ThreadPoolTaskExecutor-5] n.l.p.a.service.LastFmJsonParseService   : ### parsed
+2020-04-01 14:19:18.963  INFO 5336 --- [http-nio-8765-exec-7] n.l.p.a.controller.AlbumController       : Album fetched
