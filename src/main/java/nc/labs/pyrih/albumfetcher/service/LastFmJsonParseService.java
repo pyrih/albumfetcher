@@ -38,7 +38,7 @@ public class LastFmJsonParseService implements JsonParseService {
             String genre = "No content";
             poster = getPoster(root);
             tracks = getTracks(root);
-            LOGGER.info("### parsed");
+            LOGGER.info(String.format("#Album:: %s - %s have been parsed.", artist, name));
             return Optional.of(new LastFmAlbum(name, artist, genre, poster, tracks));
         }
     }
