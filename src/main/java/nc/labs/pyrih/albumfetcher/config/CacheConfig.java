@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.Objects;
+
 @Configuration
 @ConditionalOnProperty(name = "spring.cache.names")
 @EnableCaching
@@ -21,7 +23,7 @@ public class CacheConfig {
 
     @Bean
     public CacheManager cacheManager() {
-        return new ConcurrentMapCacheManager(cacheNames); // Cache Vendor
+        return new ConcurrentMapCacheManager(cacheNames);
     }
 
     @ConditionalOnProperty(name = "spring.cache.autoexpiry", value = "true")
@@ -29,6 +31,7 @@ public class CacheConfig {
     public void cacheEvict() {
         cacheManager.getCacheNames().stream()
                 .map(cacheManager::getCache)
+                .filter(Objects::nonNull)
                 .forEach(Cache::clear);
     }
 }

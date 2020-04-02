@@ -39,6 +39,14 @@ public class LastFmDocumentService implements DocumentService {
         return String.format("%02d:%02d", seconds / 60, seconds % 60);
     }
 
+    /**
+     * Returns byte array stream of generated document created from template
+     *
+     * @param templatePath  path to template.docx file
+     * @param albumOptional optional of album
+     * @return byte array stream of generated document
+     * @throws IOException
+     */
     @Override
     public byte[] getDocStream(String templatePath, Optional<AbstractAlbum> albumOptional) throws IOException {
         if (!albumOptional.isPresent()) {
@@ -63,7 +71,15 @@ public class LastFmDocumentService implements DocumentService {
         }
     }
 
-    private void replaceFormField(XWPFDocument document, String field, String text) {
+    /**
+     * Searches and replaces the input fields in the document with information about the album
+     *
+     * @param document XWPFDocument
+     * @param field    input text field that needs to replace
+     * @param text     text to replacing
+     */
+    @Override
+    public void replaceFormField(XWPFDocument document, String field, String text) {
         boolean isFound = false;
         for (XWPFParagraph paragraph : document.getParagraphs()) {
             for (XWPFRun run : paragraph.getRuns()) {
@@ -89,6 +105,12 @@ public class LastFmDocumentService implements DocumentService {
         }
     }
 
+    /**
+     * Creates a paragraph and fill table with album track content
+     *
+     * @param document XWPFDocument
+     * @param album    AbstractAlbum
+     */
     @Override
     public void fillTable(XWPFDocument document, AbstractAlbum album) {
         createXwpfRun(document, "Album track list:");
@@ -109,6 +131,24 @@ public class LastFmDocumentService implements DocumentService {
         }
     }
 
+    private XWPFRun createXwpfRun(XWPFDocument document, String text) {
+        XWPFParagraph paragraph = document.createParagraph();
+        XWPFRun xwpfRun = paragraph.createRun();
+        xwpfRun.setText(text);
+        xwpfRun.setBold(true);
+        xwpfRun.setCapitalized(true);
+        xwpfRun.addBreak();
+        paragraph.setAlignment(ParagraphAlignment.CENTER);
+        return xwpfRun;
+    }
+
+    /**
+     * Adds a paragraph with a picture to document
+     *
+     * @param document XWPFDocument
+     * @param poster   poster URL from AbstractAlbum
+     * @throws IOException
+     */
     @Override
     public void addImage(XWPFDocument document, URL poster) throws IOException {
         XWPFRun run = createXwpfRun(document, "Album cover:");
@@ -131,17 +171,6 @@ public class LastFmDocumentService implements DocumentService {
             e.printStackTrace();
         }
         run.addBreak();
-    }
-
-    private XWPFRun createXwpfRun(XWPFDocument document, String text) {
-        XWPFParagraph paragraph = document.createParagraph();
-        XWPFRun xwpfRun = paragraph.createRun();
-        xwpfRun.setText(text);
-        xwpfRun.setBold(true);
-        xwpfRun.setCapitalized(true);
-        xwpfRun.addBreak();
-        paragraph.setAlignment(ParagraphAlignment.CENTER);
-        return xwpfRun;
     }
 }
 

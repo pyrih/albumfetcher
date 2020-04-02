@@ -7,5 +7,11 @@ import java.util.Optional;
 
 @Component
 public interface JsonParseService {
+    /**
+     * Parses json string to AbstractAlbum wrapped Optional
+     *
+     * @param jsonString response body from external api
+     * @return Optional<AbstractAlbum>
+     */
     Optional<AbstractAlbum> parse(String jsonString);
 }

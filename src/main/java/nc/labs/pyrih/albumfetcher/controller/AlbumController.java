@@ -5,6 +5,7 @@ import nc.labs.pyrih.albumfetcher.service.AlbumService;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,11 +33,23 @@ public class AlbumController {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     private final AlbumService albumService;
 
+    /**
+     * Constructs object and injects AlbumService bean
+     *
+     * @param albumService AlbumService bean
+     */
     public AlbumController(AlbumService albumService) {
         this.albumService = albumService;
     }
 
-    // @Cacheable(value = "albums", key = "#album")
+    /**
+     * Returns information about a singer and album name in json or xml format
+     *
+     * @param artist music singer name
+     * @param album  album name
+     * @return ResponseEntity<?>
+     */
+    @Cacheable(value = "albumInfo")
     @RequestMapping(path = "info", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
     public ResponseEntity<?> getInfo(@RequestParam(name = "artist", defaultValue = "Eminem") String artist,
                                      @RequestParam(name = "album", defaultValue = "Recovery") String album) {
@@ -44,23 +57,32 @@ public class AlbumController {
         Optional<AbstractAlbum> result = Optional.empty();
         try {
             result = albumService.getAlbum(artist, album).get();
+            LOGGER.info(String.format("/info request result is: %s", result));
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            LOGGER.error("Cant get album object from service", e);
         }
         LOGGER.info(String.format("Album:: %s - %s fetched", artist, album));
         return ResponseEntity.of(result);
     }
 
+    /**
+     * Returns page contains information about a singer and album name in json or xml format
+     *
+     * @param artist music singer name
+     * @param album  album name
+     * @param page   page number
+     * @param size   number of elements on page
+     * @return ResponseEntity<Page < AbstractAlbum>>
+     */
     @RequestMapping(path = "info/page", method = RequestMethod.GET, produces = {"application/json", "application/xml"})
     public ResponseEntity<Page<AbstractAlbum>> getPage(@RequestParam(name = "artist", defaultValue = "Eminem") String artist,
                                                        @RequestParam(name = "album", defaultValue = "Recovery") String album,
                                                        @RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                                        @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        List<AbstractAlbum> albums = albumService.getAlbumPageSize(artist, album);
+        List<AbstractAlbum> albums = albumService.getAlbumPage(artist, album);
         Pageable pageable = PageRequest.of(page - 1, size);
         int start = (page - 1) * size;
         int end = start + size;
-
         Page<AbstractAlbum> pages;
         if (end <= albums.size()) {
             pages = new PageImpl<>(albums.subList(start, end), pageable, albums.size());
@@ -69,29 +91,42 @@ public class AlbumController {
             if (start < albums.size()) {
                 int toIndex = albums.size();
                 pages = new PageImpl<>(albums.subList(start, toIndex), pageable, albums.size());
+                LOGGER.info(String.format("/info/page request result is: pages - %s", pages));
                 return new ResponseEntity<>(pages, HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        LOGGER.error("Response entity does not have a value");
+        return ResponseEntity.noContent().build();
+
     }
 
+    /**
+     * Returns *.docx format document contains information about a singer and album name,
+     * track list table and album cover in *.png format
+     *
+     * @param artist music singer name
+     * @param album  album name
+     * @return ResponseEntity<?>
+     * @throws IOException
+     * @throws InvalidFormatException
+     */
     @RequestMapping(path = "doc", method = RequestMethod.GET)
     public ResponseEntity<?> getDoc(@RequestParam(name = "artist", defaultValue = "Eminem") String artist,
                                     @RequestParam(name = "album", defaultValue = "Recovery") String album) throws IOException, InvalidFormatException {
-
         Optional<AbstractAlbum> albumOptional = Optional.empty();
         try {
             albumOptional = albumService.getAlbum(artist, album).get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            LOGGER.error("Cant get album object from service", e);
         }
         InputStreamResource result = albumService.getAlbumDoc(albumOptional);
-
-        String headerValue = String.format("attachment;filename=%s_%s_%s.docx", artist, album,
-                new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(result);
+        if (result != null) {
+            String headerValue = String.format("attachment;filename=%s_%s_%s.docx", artist, album,
+                    new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(result);
+        } else return ResponseEntity.noContent().build();
     }
 }

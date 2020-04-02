@@ -26,6 +26,12 @@ public class LastFmJsonParseService implements JsonParseService {
     private URL poster;
     private List<AbstractTrack> tracks;
 
+    /**
+     * Parses json string to AbstractAlbum wrapped Optional
+     *
+     * @param response response body from external last.fm api
+     * @return Optional of AbstractAlbum
+     */
     public Optional<AbstractAlbum> parse(String response) {
         JSONObject object = new JSONObject(response);
 
@@ -35,11 +41,17 @@ public class LastFmJsonParseService implements JsonParseService {
             JSONObject root = object.getJSONObject("album");
             String name = root.getString("name");
             String artist = root.getString("artist");
-            String genre = "No content";
+            String genre = getGenre(root);
             poster = getPoster(root);
             tracks = getTracks(root);
             LOGGER.info(String.format("#Album:: %s - %s have been parsed.", artist, name));
-            return Optional.of(new LastFmAlbum(name, artist, genre, poster, tracks));
+
+            if (tracks == null || tracks.isEmpty() || poster == null) {
+                return Optional.empty();
+            } else {
+                return Optional.of(new LastFmAlbum(name, artist, genre, poster, tracks));
+            }
+
         }
     }
 
@@ -59,15 +71,27 @@ public class LastFmJsonParseService implements JsonParseService {
     }
 
     private List<AbstractTrack> getTracks(JSONObject root) {
-        JSONArray array = root.getJSONObject("tracks").getJSONArray("track");
-        if (!array.isEmpty()) {
+        JSONArray trackArray = root.getJSONObject("tracks").getJSONArray("track");
+        if (!trackArray.isEmpty()) {
             tracks = new ArrayList<>();
-            for (int i = 0; i < array.length(); i++) {
-                String track = array.getJSONObject(i).getString("name");
-                int duration = Integer.parseInt(array.getJSONObject(i).getString("duration"));
+            for (int i = 0; i < trackArray.length(); i++) {
+                String track = trackArray.getJSONObject(i).getString("name");
+                int duration = Integer.parseInt(trackArray.getJSONObject(i).getString("duration"));
                 tracks.add(new LastFmTrack(track, duration));
             }
         }
         return tracks;
+    }
+
+    private String getGenre(JSONObject root) {
+        JSONArray tagArray = root.getJSONObject("tags").getJSONArray("tag");
+        if (tagArray.isEmpty()) {
+            return "no genre";
+        } else if (!tagArray.isEmpty() && tagArray.length() >= 2) {
+            return tagArray.getJSONObject(1).getString("name");
+        } else if (!tagArray.isEmpty() && tagArray.length() < 2) {
+            return tagArray.getJSONObject(0).getString("name");
+        }
+        return null;
     }
 }

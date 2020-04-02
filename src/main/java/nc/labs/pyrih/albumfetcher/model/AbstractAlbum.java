@@ -1,17 +1,23 @@
 package nc.labs.pyrih.albumfetcher.model;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+@XmlType(name = "abstractAlbum")
+@XmlRootElement
+@XmlSeeAlso({LastFmAlbum.class})
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractAlbum implements Serializable {
     private String name;
     private String artist;
     private String genre;
     private URL poster;
-    private List<AbstractTrack> tracks;
+    @XmlElementWrapper(name = "tracks", nillable = true)
+    private List<AbstractTrack> track;
 
     public AbstractAlbum() {
     }
@@ -21,7 +27,7 @@ public abstract class AbstractAlbum implements Serializable {
         this.artist = artist;
         this.genre = genre;
         this.poster = poster;
-        this.tracks = tracks;
+        this.track = tracks;
     }
 
     public String getName() {
@@ -57,11 +63,11 @@ public abstract class AbstractAlbum implements Serializable {
     }
 
     public List<AbstractTrack> getTracks() {
-        return tracks;
+        return track;
     }
 
     public void setTracks(List<AbstractTrack> tracks) {
-        this.tracks = tracks;
+        this.track = tracks;
     }
 
     @Override
@@ -73,12 +79,12 @@ public abstract class AbstractAlbum implements Serializable {
                 artist.equals(that.artist) &&
                 genre.equals(that.genre) &&
                 poster.equals(that.poster) &&
-                tracks.equals(that.tracks);
+                track.equals(that.track);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, artist, genre, poster, tracks);
+        return Objects.hash(name, artist, genre, poster, track);
     }
 
     @Override
@@ -88,7 +94,7 @@ public abstract class AbstractAlbum implements Serializable {
                 .add("artist='" + artist + "'")
                 .add("genre='" + genre + "'")
                 .add("poster=" + poster)
-                .add("tracks=" + tracks)
+                .add("tracks=" + track)
                 .toString();
     }
 }

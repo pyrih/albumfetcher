@@ -6,8 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
@@ -28,8 +26,8 @@ import java.util.concurrent.Future;
 @Service
 @Primary
 public class LastFmAlbumService implements AlbumService {
-    private static final String DOCX_TEMPLATE_PATH = "src/main/resources/template.docx";
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private static final String DOCX_TEMPLATE_PATH = "src/main/resources/template.docx";
 
     @Value("${apikey.lastfm}")
     private String API_KEY;
@@ -37,22 +35,24 @@ public class LastFmAlbumService implements AlbumService {
     private DocumentService documentService;
     private JsonToAlbumConverter jsonToAlbumConverter;
 
-    public LastFmAlbumService(RestTemplate restTemplate, DocumentService documentService, JsonToAlbumConverter jsonToAlbumConverter) {
+    public LastFmAlbumService(RestTemplate restTemplate, DocumentService documentService,
+                              JsonToAlbumConverter jsonToAlbumConverter) {
         this.restTemplate = restTemplate;
         this.documentService = documentService;
         this.jsonToAlbumConverter = jsonToAlbumConverter;
     }
 
+    /**
+     * Returns Optional of album asynchronously
+     *
+     * @param artist singer name
+     * @param album  album name
+     * @return Future<Optional < AbstractAlbum>>
+     */
     @Async
-    // @Cacheable(value = "albumInfo", key = "#artist + #album")
     @Override
     public Future<Optional<AbstractAlbum>> getAlbum(String artist, String album) {
-        LOGGER.debug("Execute method asynchronously: " + Thread.currentThread().getName());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        LOGGER.debug("Execute method asynchronously: " + Thread.currentThread().getName()); //debug
 
         ResponseEntity<String> response;
         Optional<AbstractAlbum> albumOptional;
@@ -63,34 +63,49 @@ public class LastFmAlbumService implements AlbumService {
                         .convert(Objects.requireNonNull(response.getBody()));
                 return new AsyncResult<>(albumOptional);
             } else {
+                LOGGER.warn("AsyncResult contains empty optionals");
                 return new AsyncResult<>(Optional.empty());
             }
         } catch (RestClientException e) {
+            LOGGER.warn("RestClient execution exception. Cannot get AsyncResult", e);
             return new AsyncResult<>(Optional.empty());
         }
     }
 
+    /**
+     * Returns list of albums from external api
+     *
+     * @param artist singer name
+     * @param album  album name
+     * @return list of albums
+     */
     @Override
-    public List<AbstractAlbum> getAlbumPageSize(String artist, String album) {
+    public List<AbstractAlbum> getAlbumPage(String artist, String album) {
         List<AbstractAlbum> albums = new ArrayList<>();
         Optional<AbstractAlbum> albumOptional = Optional.empty();
         try {
             albumOptional = getAlbum(artist, album).get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            LOGGER.error("Cannot get optional of album", e);
         }
         albumOptional.ifPresent(albums::add);
         return albums;
     }
 
+    /**
+     * Returns an input stream of document contains album information
+     *
+     * @param albumOptional Optional of AbstractAlbum
+     * @return an input stream
+     * @throws IOException
+     */
     @Override
     public InputStreamResource getAlbumDoc(Optional<AbstractAlbum> albumOptional) throws IOException {
         byte[] resource = documentService.getDocStream(DOCX_TEMPLATE_PATH, albumOptional);
-        return new InputStreamResource(new ByteArrayInputStream(resource));
-    }
-
-    @Override
-    public Page<AbstractAlbum> getAlbumPage(String artist, String album, Pageable page) {
+        if (resource != null) {
+            return new InputStreamResource(new ByteArrayInputStream(resource));
+        }
+        LOGGER.debug("Byte array resource equals null!");
         return null;
     }
 
