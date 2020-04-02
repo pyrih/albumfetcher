@@ -2,6 +2,7 @@
 is a simple project for Spring Boot RESTful application to retrieve music album information from external APIs
 
 #endpoints
+
 http://localhost:8765/api/info
 http://localhost:8765/api/info?artist=Eminem&album=Relapse
 http://localhost:8765/api/info?mediaType=xml
