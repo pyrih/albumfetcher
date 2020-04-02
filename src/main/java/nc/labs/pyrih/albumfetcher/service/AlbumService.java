@@ -36,7 +36,7 @@ public interface AlbumService {
      *
      * @param albumOptional Optional<AbstractAlbum>
      * @return an input stream
-     * @throws IOException
+     * @throws IOException            exception
      * @throws InvalidFormatException
      */
     InputStreamResource getAlbumDoc(Optional<AbstractAlbum> albumOptional) throws IOException, InvalidFormatException;
