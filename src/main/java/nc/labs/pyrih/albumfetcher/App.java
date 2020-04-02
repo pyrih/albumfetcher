@@ -13,16 +13,18 @@ import java.time.Duration;
 @EnableCaching
 public class App {
 
+    private static final long SECONDS = 1000L;
+
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        // Do any additional configuration here
+        Duration timeout = Duration.ofSeconds(SECONDS);
         return builder
-                .setConnectTimeout(Duration.ofSeconds(1000))
-                .setReadTimeout(Duration.ofSeconds(1000))
+                .setConnectTimeout(timeout)
+                .setReadTimeout(timeout)
                 .build();
     }
 

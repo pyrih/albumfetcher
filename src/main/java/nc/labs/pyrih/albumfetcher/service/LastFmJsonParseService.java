@@ -6,48 +6,92 @@ import nc.labs.pyrih.albumfetcher.model.LastFmAlbum;
 import nc.labs.pyrih.albumfetcher.model.LastFmTrack;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Primary
 public class LastFmJsonParseService implements JsonParseService {
-    public AbstractAlbum parse(String response) {
-        JSONObject obj = new JSONObject(response);
+    private static final String FAILURE_RESPONSE = "error";
+    private static final int LARGE_IMAGE_SIZE = 3;
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private URL poster;
+    private List<AbstractTrack> tracks;
 
+    /**
+     * Parses json string to AbstractAlbum wrapped Optional
+     *
+     * @param response response body from external last.fm api
+     * @return Optional of AbstractAlbum
+     */
+    public Optional<AbstractAlbum> parse(String response) {
+        JSONObject object = new JSONObject(response);
 
-        if (obj.has("error")) {
-            return null;
+        if (object.has(FAILURE_RESPONSE)) {
+            return Optional.empty();
         } else {
-            String albumName = obj.getJSONObject("album").getString("name");
-            String albumArtist = obj.getJSONObject("album").getString("artist");
-            //String albumMbid = obj.getJSONObject("album").getString("mbid");
+            JSONObject root = object.getJSONObject("album");
+            String name = root.getString("name");
+            String artist = root.getString("artist");
+            String genre = getGenre(root);
+            poster = getPoster(root);
+            tracks = getTracks(root);
+            LOGGER.info(String.format("#Album:: %s - %s have been parsed.", artist, name));
 
-            //=========================
-            String albumGenre = "def genre";
-            JSONArray arrOfTags = obj.getJSONObject("album").getJSONObject("tags").getJSONArray("tag");
-            System.out.println("arrOfTags.length() is: " + arrOfTags.length());
-
-            if (!arrOfTags.isEmpty()) {
-                System.out.println(arrOfTags.toList());
+            if (tracks == null || tracks.isEmpty() || poster == null) {
+                return Optional.empty();
+            } else {
+                return Optional.of(new LastFmAlbum(name, artist, genre, poster, tracks));
             }
 
-            //=========================
-
-            List<AbstractTrack> tracks = new ArrayList<>();
-
-            JSONArray arr = obj.getJSONObject("album").getJSONObject("tracks").getJSONArray("track");
-            for (int i = 0; i < arr.length(); i++) {
-                String trackName = arr.getJSONObject(i).getString("name");
-                int trackDuration = Integer.parseInt(arr.getJSONObject(i).getString("duration"));
-                int trackRank = Integer.parseInt(arr.getJSONObject(i).getJSONObject("@attr").getString("rank"));
-
-                tracks.add(new LastFmTrack(trackName, trackDuration, trackRank));
-            }
-            return new LastFmAlbum(albumName, albumArtist, albumGenre, null, tracks, null);
         }
+    }
+
+    private URL getPoster(JSONObject root) {
+        String imageJsonValue = root.getJSONArray("image")
+                .getJSONObject(LARGE_IMAGE_SIZE)
+                .getString("#text");
+        if (!imageJsonValue.isEmpty()) {
+            try {
+                poster = new URL(imageJsonValue);
+                return poster;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    private List<AbstractTrack> getTracks(JSONObject root) {
+        JSONArray trackArray = root.getJSONObject("tracks").getJSONArray("track");
+        if (!trackArray.isEmpty()) {
+            tracks = new ArrayList<>();
+            for (int i = 0; i < trackArray.length(); i++) {
+                String track = trackArray.getJSONObject(i).getString("name");
+                int duration = Integer.parseInt(trackArray.getJSONObject(i).getString("duration"));
+                tracks.add(new LastFmTrack(track, duration));
+            }
+        }
+        return tracks;
+    }
+
+    private String getGenre(JSONObject root) {
+        JSONArray tagArray = root.getJSONObject("tags").getJSONArray("tag");
+        if (tagArray.isEmpty()) {
+            return "no genre";
+        } else if (!tagArray.isEmpty() && tagArray.length() >= 2) {
+            return tagArray.getJSONObject(1).getString("name");
+        } else if (!tagArray.isEmpty() && tagArray.length() < 2) {
+            return tagArray.getJSONObject(0).getString("name");
+        }
+        return null;
     }
 }
