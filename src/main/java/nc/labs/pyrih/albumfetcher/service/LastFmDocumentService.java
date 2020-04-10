@@ -8,6 +8,8 @@ import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.SimpleValue;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import java.util.Optional;
 @Primary
 public class LastFmDocumentService implements DocumentService {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     private static final String XMLBASE_CURSOR_SCHEMA_PATH = "declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//w:fldChar/@w:fldCharType";
     private static final String XMLBASE_OBJECT_SCHEMA_PATH = "declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//w:ffData/w:name/@w:val";
     private static final String PICTURE_TYPE_PNG = "png";
@@ -168,7 +171,7 @@ public class LastFmDocumentService implements DocumentService {
         try {
             run.addPicture(arrayInputStream, type, "cover.png", Units.toEMU(width), Units.toEMU(height));
         } catch (InvalidFormatException e) {
-            e.printStackTrace();
+            LOGGER.error("Invalid picture format of a file.", e);
         }
         run.addBreak();
     }

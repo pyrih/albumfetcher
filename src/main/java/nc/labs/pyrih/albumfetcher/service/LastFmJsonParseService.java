@@ -64,7 +64,7 @@ public class LastFmJsonParseService implements JsonParseService {
                 poster = new URL(imageJsonValue);
                 return poster;
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                LOGGER.error("URL cannot be parsed from passed string:" + imageJsonValue, e);
             }
         }
         return null;
