@@ -1,2 +1,2 @@
-java -jar .\target\albumfetcher-0.0.1-SNAPSHOT.jar
+java -jar .\target\albumfetcher-2.1-SNAPSHOT.jar
 pause
